@@ -92,7 +92,7 @@ db.create_all()
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
-    if current_user.is_validated:
+    if current_user.is_authenticated:
         return render_template("index.html", all_posts=posts, logged_in=True, user_id=current_user.id)
     else:
         return render_template("index.html", all_posts=posts, logged_in=False, user_id=0)
