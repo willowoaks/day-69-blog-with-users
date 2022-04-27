@@ -92,12 +92,11 @@ db.create_all()
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
-    try:
-        user_id = current_user.id
-    except AttributeError:
-        return render_template("index.html", all_posts=posts, logged_in=False, user_id=0)
+    if current_user.is_validated:
+        return render_template("index.html", all_posts=posts, logged_in=True, user_id=current_user.id)
     else:
-        return render_template("index.html", all_posts=posts, logged_in=True, user_id=user_id)
+        return render_template("index.html", all_posts=posts, logged_in=False, user_id=0)
+
 
 
 @app.route('/register', methods=["GET", "POST"])
